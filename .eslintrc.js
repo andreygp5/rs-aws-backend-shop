@@ -15,5 +15,15 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
-  }
+  },
+  overrides: [
+    {
+      files: [
+        '**/*.spec.ts'
+      ],
+      env: {
+        jest: true
+      }
+    }
+  ]
 }
