@@ -14,9 +14,15 @@ custom:
     webpackConfig: webpack.config.js
 
 functions:
-  hello:
-    handler: "src/handler.hello"
+  getProductsList:
+    handler: "src/product/handler.getProductsList"
     events:
       - http:
-          path: hello
-          method: any
+          path: products
+          method: get
+  getProductsById:
+    handler: "src/product/handler.getProductsById"
+    events:
+      - http:
+          path: products/{productId}
+          method: get
