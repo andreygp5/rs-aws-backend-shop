@@ -8,7 +8,7 @@ export class ProductService {
     return this.productsMock
   }
 
-  async getOne (id: Product['id']): Promise<Product> {
-    return this.productsMock.find(product => product.id === id)
+  async getOne (id: Product['id']): Promise<Product | null> {
+    return this.productsMock.find(product => product.id === id) || null
   }
 }

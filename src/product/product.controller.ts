@@ -17,9 +17,15 @@ export class ProductController {
     }
   }
 
-  async getOne (event: APIGatewayEvent, context: Context) {
+  async getOne (event: APIGatewayEvent, context: Context): Promise<APIGatewayProxyResult> {
     const productId = event.pathParameters.productId
     const product = await this.productsService.getOne(productId)
+    if (!product) {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ msg: `Product with id=${productId} was not found` })
+      }
+    }
 
     return {
       statusCode: 200,
