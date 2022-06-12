@@ -1,9 +1,11 @@
-import { Handler } from 'aws-lambda'
-import { ProductHandler } from './product.handler'
+import { APIGatewayEvent, Context } from 'aws-lambda'
+import { ProductController } from './product.controller'
 import { ProductService } from './product.service'
+import middy from '@middy/core'
+import cors from '@middy/http-cors'
 
-const productsHandler = new ProductHandler(new ProductService())
+const productController = new ProductController(new ProductService())
 
-export const getProductsList: Handler = async (event, context) => productsHandler.getAll(event, context)
+export const getProductsList = middy((event: APIGatewayEvent, context: Context) => productController.getAll(event, context)).use(cors())
 
-export const getProductsById: Handler = async (event, context) => productsHandler.getOne(event, context)
+export const getProductsById = middy((event: APIGatewayEvent, context: Context) => productController.getOne(event, context)).use(cors())

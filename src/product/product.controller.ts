@@ -1,7 +1,7 @@
 import { ProductService } from './product.service'
 import { Context, APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda'
 
-export class ProductHandler {
+export class ProductController {
   private readonly productsService: ProductService
 
   constructor (productsService: ProductService) {
@@ -19,7 +19,7 @@ export class ProductHandler {
 
   async getOne (event: APIGatewayEvent, context: Context) {
     const productId = event.pathParameters.productId
-    const product = await this.productsService.getOne(+productId)
+    const product = await this.productsService.getOne(productId)
 
     return {
       statusCode: 200,

@@ -20,9 +20,11 @@ functions:
       - http:
           path: products
           method: get
+          cors: true
   getProductsById:
     handler: "src/product/handler.getProductsById"
     events:
       - http:
           path: products/{productId}
           method: get
+          cors: true

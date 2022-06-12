@@ -1,7 +1,7 @@
 import { EntityMetadata } from '../model/entity-metadata.model'
 
 export interface Product {
-  id: number;
+  id: string;
 
   title: string;
   description?: string;
