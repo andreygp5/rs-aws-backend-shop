@@ -1,1 +1,0 @@
-# rs-aws-backend-shop

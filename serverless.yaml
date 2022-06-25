@@ -1,0 +1,30 @@
+service: rs-aws-backend-shop
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  environment:
+    NODE_ENV: dev
+
+plugins:
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: webpack.config.js
+
+functions:
+  getProductsList:
+    handler: "src/product/handler.getProductsList"
+    events:
+      - http:
+          path: products
+          method: get
+          cors: true
+  getProductsById:
+    handler: "src/product/handler.getProductsById"
+    events:
+      - http:
+          path: products/{productId}
+          method: get
+          cors: true
