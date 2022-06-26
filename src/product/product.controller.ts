@@ -11,6 +11,7 @@ export class ProductController {
 
   async getAll (event: APIGatewayEvent, context: Context): Promise<APIGatewayProxyResult> {
     try {
+      console.log('Get all products')
       const products = await this.productsService.getAll()
 
       return {
@@ -25,6 +26,7 @@ export class ProductController {
   async getOne (event: APIGatewayEvent, context: Context): Promise<APIGatewayProxyResult> {
     try {
       const productId = event.pathParameters.productId
+      console.log(`Get product with id=${productId}`)
       const product = await this.productsService.getOne(productId)
       if (!product) {
         return {
@@ -44,6 +46,7 @@ export class ProductController {
 
   async createProduct (event: APIGatewayEvent, context: Context): Promise<APIGatewayProxyResult> {
     try {
+      console.log(`Create product - ${event.body}`)
       const newProduct = await this.productsService.createProduct(JSON.parse(event.body))
 
       return {
