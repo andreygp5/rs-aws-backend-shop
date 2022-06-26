@@ -1,5 +1,5 @@
 import { Product } from './model/product.model'
-import { Client } from 'pg'
+import { Client, Pool } from 'pg'
 import { CreateProductDto } from './model/create-dto'
 import { validateOrReject } from 'class-validator'
 
@@ -56,29 +56,40 @@ export class ProductService {
       throw { statusCode: 400, body: JSON.stringify(e) }
     }
 
-    const client = new Client()
-    await client.connect()
+    const pool = new Pool()
+    const client = await pool.connect()
 
-    const createProductRes = await client.query<Product>(`
+    try {
+      await client.query('BEGIN')
+
+      const createProductRes = await client.query<Product>(`
         insert into products (title, description, price)
                     values ($1, $2, $3)
                     returning id
     `, [productDto.title, productDto.description, productDto.price])
 
-    const newProductId = createProductRes.rows[0].id
+      const newProductId = createProductRes.rows[0].id
 
-    await client.query(`
+      await client.query(`
         insert into stock (count, product_id)
                     values ($1,  $2)
     `, [productDto.count, newProductId])
 
-    await productDto.images.forEach(async (image) => {
-      await client.query(`
+      await productDto.images.forEach(async (image) => {
+        await client.query(`
         insert into media (url, product_id)
                     values ($1,  $2)
     `, [image, newProductId])
-    })
+      })
 
-    return this.getOne(newProductId)
+      await client.query('COMMIT')
+
+      return this.getOne(newProductId)
+    } catch (e) {
+      await client.query('ROLLBACK')
+      throw e
+    } finally {
+      client.release()
+    }
   }
 }
