@@ -1,6 +1,7 @@
 const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const slsw = require('serverless-webpack')
+const webpack = require('webpack')
 
 module.exports = {
   entry: slsw.lib.entries,
@@ -14,7 +15,7 @@ module.exports = {
       }
     ]
   },
-  plugins: [new ESLintPlugin()],
+  plugins: [new ESLintPlugin(), new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ })],
   resolve: {
     extensions: ['.ts', '.js']
   },

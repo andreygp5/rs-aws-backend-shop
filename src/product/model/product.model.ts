@@ -1,5 +1,3 @@
-import { EntityMetadata } from '../model/entity-metadata.model'
-
 export interface Product {
   id: string;
 
@@ -9,5 +7,5 @@ export interface Product {
   price: number;
   count: number;
 
-  metadata: EntityMetadata
+  images: string[]
 }
