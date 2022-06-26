@@ -19,6 +19,7 @@
   "description": "",
   "devDependencies": {
     "@types/aws-lambda": "^8.10.100",
+    "@types/pg": "^8.6.5",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
     "eslint": "^8.17.0",
@@ -39,6 +40,8 @@
   "dependencies": {
     "@middy/core": "^3.0.4",
     "@middy/http-cors": "^3.0.4",
-    "@types/jest": "^28.1.1"
+    "@types/jest": "^28.1.1",
+    "pg": "^8.7.3",
+    "webpack-node-externals": "^3.0.0"
   }
 }
