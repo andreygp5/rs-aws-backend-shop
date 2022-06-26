@@ -1,5 +1,6 @@
 import { ProductService } from './product.service'
 import { Context, APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda'
+import { InternalServerError } from '../utils/response'
 
 export class ProductController {
   private readonly productsService: ProductService
@@ -9,27 +10,35 @@ export class ProductController {
   }
 
   async getAll (event: APIGatewayEvent, context: Context): Promise<APIGatewayProxyResult> {
-    const products = await this.productsService.getAll()
+    try {
+      const products = await this.productsService.getAll()
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(products)
+      return {
+        statusCode: 200,
+        body: JSON.stringify(products)
+      }
+    } catch (e) {
+      return InternalServerError
     }
   }
 
   async getOne (event: APIGatewayEvent, context: Context): Promise<APIGatewayProxyResult> {
-    const productId = event.pathParameters.productId
-    const product = await this.productsService.getOne(productId)
-    if (!product) {
-      return {
-        statusCode: 404,
-        body: JSON.stringify({ msg: `Product with id=${productId} was not found` })
+    try {
+      const productId = event.pathParameters.productId
+      const product = await this.productsService.getOne(productId)
+      if (!product) {
+        return {
+          statusCode: 404,
+          body: JSON.stringify({ msg: `Product with id=${productId} was not found` })
+        }
       }
-    }
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(product)
+      return {
+        statusCode: 200,
+        body: JSON.stringify(product)
+      }
+    } catch (e) {
+      return InternalServerError
     }
   }
 
@@ -45,10 +54,7 @@ export class ProductController {
       if (e.statusCode) {
         return e
       } else {
-        return {
-          statusCode: 500,
-          body: 'Internal server error'
-        }
+        return InternalServerError
       }
     }
   }
