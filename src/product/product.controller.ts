@@ -32,4 +32,24 @@ export class ProductController {
       body: JSON.stringify(product)
     }
   }
+
+  async createProduct (event: APIGatewayEvent, context: Context): Promise<APIGatewayProxyResult> {
+    try {
+      const newProduct = await this.productsService.createProduct(JSON.parse(event.body))
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify(newProduct)
+      }
+    } catch (e) {
+      if (e.statusCode) {
+        return e
+      } else {
+        return {
+          statusCode: 500,
+          body: 'Internal server error'
+        }
+      }
+    }
+  }
 }

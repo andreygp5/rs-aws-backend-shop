@@ -15,6 +15,7 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
+    'no-throw-literal': 0
   },
   overrides: [
     {

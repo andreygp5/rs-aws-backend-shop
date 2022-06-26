@@ -9,3 +9,5 @@ const productController = new ProductController(new ProductService())
 export const getProductsList = middy((event: APIGatewayEvent, context: Context) => productController.getAll(event, context)).use(cors())
 
 export const getProductsById = middy((event: APIGatewayEvent, context: Context) => productController.getOne(event, context)).use(cors())
+
+export const createProduct = middy((event: APIGatewayEvent, context: Context) => productController.createProduct(event, context)).use(cors())

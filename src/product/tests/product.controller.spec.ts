@@ -1,6 +1,6 @@
 import { ProductController } from '../product.controller'
 import { ProductService } from '../product.service'
-import { Product } from '../product.model'
+import { Product } from '../model/product.model'
 import { APIGatewayEvent, APIGatewayProxyResult, Context } from 'aws-lambda'
 
 const productsMock: Product[] = [
